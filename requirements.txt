@@ -1,6 +1,10 @@
 fastapi
-sqlalchemy
-python-jose
-passlib
+uvicorn
 pydantic
-bcrypt
+pydantic[email]
+sqlalchemy
+
+# python-jose
+# passlib
+
+# bcrypt

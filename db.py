@@ -1,6 +1,7 @@
-from sqlalchemy import Integer, String, create_engine
+from sqlalchemy import Integer, String, create_engine, Boolean, DateTime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 import config
+from datetime import datetime
 
 
 class Base(DeclarativeBase):
@@ -11,10 +12,14 @@ class UserORM(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String)
-    login: Mapped[str] = mapped_column(String, unique=True)
-    email: Mapped[str] = mapped_column(String, unique=True)
-    password: Mapped[str] = mapped_column(String)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    login: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    password: Mapped[str] = mapped_column(String, nullable=False)
+    is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
+    verification_code: Mapped[str | None] = mapped_column(String, nullable=True)
+    code_expires_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
 
     def __repr__(self):
         return f"<User id={self.id} login={self.login} name={self.name}>"
@@ -51,7 +56,7 @@ def get_users():
 
 
 if __name__ == "__main__":
-    create_db_and_tables(),
-    add_user(),
+    create_db_and_tables()
+    # add_user()
     users = get_users()
     print(users)

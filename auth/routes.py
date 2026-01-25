@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from .schemas import UserCreate, UserLogin, VerifyCode
-from .utils import hash_password, verify_password
+from .utils import hash_password, verify_password, create_access_token
 import db
 import random
 from datetime import datetime, timedelta
@@ -55,7 +55,8 @@ def login(data: UserLogin, session: Session = Depends(db.get_session)):
     if not user.is_verified:
         raise HTTPException(403, "Email not verified")
 
-    return {"access_token": "JWT_HERE"}
+    access_token = create_access_token({"sub": user.email})
+    return {"access_token": access_token}
 
 
 @router.post("/verify", status_code=200)

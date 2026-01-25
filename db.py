@@ -24,9 +24,7 @@ class UserORM(Base):
     def __repr__(self):
         return f"<User id={self.id} login={self.login} name={self.name}>"
 
-
-engine = create_engine(config.DATABASE_URL, echo=True)
-
+engine = create_engine(config.DATABASE_URL)
 
 def create_db_and_tables():
     Base.metadata.create_all(engine)

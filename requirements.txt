@@ -5,3 +5,5 @@ pydantic[email]
 sqlalchemy
 passlib
 bcrypt
+PyJWT
+python-dotenv

@@ -2,18 +2,18 @@ from pydantic import BaseModel, EmailStr
 
 class UserCreate(BaseModel):
     name: str
-    login: str
+    username: str
     email: EmailStr
     password: str
 
 class UserLogin(BaseModel):
-    email: EmailStr
+    identifier: str
     password: str
 
 class UserOut(BaseModel):
     id: int
     name: str
-    login: str
+    username: str
     email: EmailStr
 
 class VerifyCode(BaseModel):

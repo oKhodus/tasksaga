@@ -13,7 +13,7 @@ class UserORM(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
-    login: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    username: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String, nullable=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
@@ -22,7 +22,7 @@ class UserORM(Base):
 
 
     def __repr__(self):
-        return f"<User id={self.id} login={self.login} name={self.name}>"
+        return f"<User id={self.id} username={self.username} name={self.name}>"
 
 engine = create_engine(config.DATABASE_URL)
 
@@ -35,17 +35,17 @@ def get_session():
         yield session
 
 
-def add_user(name, login, email, password):
+def add_user(name, username, email, password):
     with Session(engine) as session:
         new_user = UserORM(
             name=name,
-            login=login,
+            username=username,
             email=email,
             password=password
         )
         session.add(new_user)
         session.commit()
-        print(f"User {login} added!")
+        print(f"User {username} added!")
 
 
 def get_users():

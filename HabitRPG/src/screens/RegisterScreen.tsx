@@ -20,7 +20,7 @@ export default function RegisterScreen({ navigation }: any) {
 
   const onRegister = async () => {
     try {
-      const res = await register({ name, login: loginVal, email, password });
+      const res = await register({ name, username: loginVal, email, password });
 
       if (res.detail) {
         Alert.alert("Error", res.detail);
@@ -52,10 +52,10 @@ export default function RegisterScreen({ navigation }: any) {
           onChangeText={setName}
         />
 
-        <Text style={styles.label}>Login</Text>
+        <Text style={styles.label}>Username</Text>
         <TextInput
           style={styles.input}
-          placeholder="Login"
+          placeholder="Username"
           value={loginVal}
           onChangeText={setLoginVal}
         />

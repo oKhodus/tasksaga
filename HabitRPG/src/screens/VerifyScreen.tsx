@@ -41,7 +41,7 @@ export default function VerifyScreen({ route, navigation }: any) {
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.title}>Verify email</Text>
+        <Text style={styles.title}>We’ve sent a verification code to your email. Please verify your email address.</Text>
 
         <Text style={styles.email}>{email}</Text>
 

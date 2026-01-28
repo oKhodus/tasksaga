@@ -18,18 +18,18 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 def register(user: UserCreate, session: Session = Depends(db.get_session)):
     existing_user = (
         session.query(db.UserORM)
-        .filter((db.UserORM.email == user.email) | (db.UserORM.login == user.login))
+        .filter((db.UserORM.email == user.email) | (db.UserORM.username == user.username))
         .first()
     )
 
     if existing_user:
-        raise HTTPException(400, "User with this email or login already exists")
+        raise HTTPException(400, "User with this email or username already exists")
 
     code = generate_code()
 
     new_user = db.UserORM(
         name=user.name,
-        login=user.login,
+        username=user.username,
         email=user.email,
         password=hash_password(user.password),
         is_verified=False,
@@ -47,7 +47,12 @@ def register(user: UserCreate, session: Session = Depends(db.get_session)):
 
 @router.post("/login", status_code=200)
 def login(data: UserLogin, session: Session = Depends(db.get_session)):
-    user = session.query(db.UserORM).filter_by(email=data.email).first()
+    identifier = data.identifier
+
+    if "@" in identifier:
+        user = session.query(db.UserORM).filter_by(email=identifier).first()
+    else:
+        user = session.query(db.UserORM).filter_by(username=identifier).first()
 
     if not user or not verify_password(data.password, user.password):
         raise HTTPException(401, "Invalid credentials")

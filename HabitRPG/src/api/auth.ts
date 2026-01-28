@@ -1,5 +1,5 @@
 // const API_URL = "http://127.0.0.1:8000/auth";
-const API_URL = "http://172.26.20.121:3000/auth";
+const API_URL = "http://172.20.10.4:3000/auth";
 
 // uvicorn main:app --host 0.0.0.0 --port 3000 --reload
 

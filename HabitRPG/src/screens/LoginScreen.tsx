@@ -20,12 +20,12 @@ type LoginScreenProps = NativeStackScreenProps<ParamListBase, "Login"> & {
 };
 
 export default function LoginScreen({ setToken }: LoginScreenProps) {
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
 
   const onLogin = async () => {
     try {
-      const res = await login({ email, password });
+      const res = await login({ identifier, password });
 
       if (res.access_token) {
         await saveToken(res.access_token);
@@ -35,7 +35,7 @@ export default function LoginScreen({ setToken }: LoginScreenProps) {
         Alert.alert("Error", res.detail ?? "Login failed");
       }
     } catch (err) {
-      Alert.alert("Error", "Server error");
+      Alert.alert("Error", "Invalid credentials, check your password & identifier or Sign Up");
     }
   };
 
@@ -50,12 +50,13 @@ export default function LoginScreen({ setToken }: LoginScreenProps) {
       >
         <Text style={styles.title}>Sign In</Text>
 
-        <Text style={styles.label}>Email</Text>
+        <Text style={styles.label}>Email or username</Text>
         <TextInput
-          value={email}
-          onChangeText={setEmail}
+          placeholder="Email or username"
+          value={identifier}
+          onChangeText={setIdentifier}
           autoCapitalize="none"
-          keyboardType="email-address"
+          // keyboardType="email-address"
           style={styles.input}
         />
 

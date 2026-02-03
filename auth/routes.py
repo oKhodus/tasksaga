@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from .schemas import UserCreate, UserLogin, VerifyCode
+from .schemas import UserCreate, UserLogin, VerifyCode, GoogleToken
 from .utils import hash_password, verify_password, create_access_token
 import db
 import random
 from datetime import datetime, timedelta
+from services.google_auth import verify_google_token 
 
 
 def generate_code():
@@ -63,6 +64,32 @@ def login(data: UserLogin, session: Session = Depends(db.get_session)):
     access_token = create_access_token({"sub": user.email})
     return {"access_token": access_token}
 
+
+@router.post("/login/google", status_code=200)
+def google_login(data: GoogleToken, session: Session = Depends(db.get_session)):
+    payload = verify_google_token(data.id_token)
+    if not payload:
+        raise HTTPException(401, "Invalid Google token")
+
+    email = payload["email"]
+    provider_id = payload["sub"]
+    name = payload.get("name")
+
+    user = session.query(db.UserORM).filter_by(email=email).first()
+
+    if not user:
+        user = db.UserORM(
+            email=email,
+            name=name,
+            provider="google",
+            provider_id=provider_id,
+            is_verified=True
+        )
+        session.add(user)
+        session.commit()
+
+    access_token = create_access_token({"sub": user.email})
+    return {"access_token": access_token}
 
 @router.post("/verify", status_code=200)
 def verify(data: VerifyCode, session: Session = Depends(db.get_session)):

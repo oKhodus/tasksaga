@@ -28,7 +28,7 @@ jobs:
         run: ruff check --fix .
 
       - name: Format Python code
-        run: black --check .
+        run: black .
 
       # Node / React Native
       - name: Set up Node

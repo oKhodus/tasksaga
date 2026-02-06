@@ -1,5 +1,5 @@
-// const API_URL = "http://127.0.0.1:8000/auth";
-const API_URL = "http://172.20.10.4:3000/auth";
+const API_URL = "http://127.0.0.1:8000/auth";
+// const API_URL = "http://172.20.10.4:3000/auth";
 
 // uvicorn main:app --host 0.0.0.0 --port 3000 --reload
 
@@ -42,6 +42,21 @@ export const login = async (data: any) => {
     throw err;
   }
 };
+
+export const googleLogin = async (id_token: string) => {
+  try {
+    const res = await fetch(`${API_URL}/login/google`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id_token }),
+    });
+    return handleResponse(res);
+  } catch (err) {
+    console.log("Google login error:", err);
+    throw err;
+  }
+};
+
 
 export const verifyEmail = async (data: any) => {
   try {

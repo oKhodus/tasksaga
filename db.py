@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String, create_engine, Boolean, DateTime
+from sqlalchemy import Integer, String, create_engine, Boolean, DateTime, Column, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 import config
 from datetime import datetime
@@ -19,6 +19,8 @@ class UserORM(Base):
     is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
     verification_code: Mapped[str | None] = mapped_column(String, nullable=True)
     code_expires_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    provider: Mapped[str] = mapped_column(String, default="local")
+    provider_id: Mapped[str | None] = mapped_column(String, nullable=True)
 
 
     def __repr__(self):

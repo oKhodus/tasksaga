@@ -38,6 +38,7 @@ jobs:
 
       - name: Install JS deps
         run: npm ci
+        working-directory: ./TaskSaga
 
       - name: Lint JS/TS code
         run: npx eslint .

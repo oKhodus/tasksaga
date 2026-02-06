@@ -21,7 +21,10 @@ type LoginScreenProps = NativeStackScreenProps<ParamListBase, "Login"> & {
   setToken: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-export default function LoginScreen({ setToken, navigation }: LoginScreenProps) {
+export default function LoginScreen({
+  setToken,
+  navigation,
+}: LoginScreenProps) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,7 +33,8 @@ export default function LoginScreen({ setToken, navigation }: LoginScreenProps) 
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId: Platform.select({
       ios: "477138754514-r2juqvhnt4qncov6qdchn2h1m371d2hd.apps.googleusercontent.com",
-      android: "477138754514-ril0vef7hb6nn0joat864720ci5tasa5.apps.googleusercontent.com",
+      android:
+        "477138754514-ril0vef7hb6nn0joat864720ci5tasa5.apps.googleusercontent.com",
       web: "477138754514-3qdjvqvgkcnffrfjcbok00ttrnpcefi4.apps.googleusercontent.com",
     }),
     redirectUri,
@@ -51,7 +55,11 @@ export default function LoginScreen({ setToken, navigation }: LoginScreenProps) 
         const id_token = params.get("id_token");
         if (id_token) {
           handleGoogleLogin(id_token);
-          window.history.replaceState({}, document.title, window.location.pathname);
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname,
+          );
         }
       }
     }
@@ -101,8 +109,14 @@ export default function LoginScreen({ setToken, navigation }: LoginScreenProps) 
   // };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+      >
         <Text style={styles.title}>Sign In</Text>
 
         <Text style={styles.label}>Email or username</Text>
@@ -135,9 +149,26 @@ export default function LoginScreen({ setToken, navigation }: LoginScreenProps) 
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, justifyContent: "center", padding: 20, backgroundColor: "#f5f5f5" },
-  title: { fontSize: 28, fontWeight: "bold", textAlign: "center", marginBottom: 40 },
+  container: {
+    flexGrow: 1,
+    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "#f5f5f5",
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 40,
+  },
   label: { fontSize: 16, marginBottom: 8, color: "#333" },
-  input: { borderWidth: 1, borderColor: "#ccc", borderRadius: 8, padding: 12, marginBottom: 20, backgroundColor: "#fff" },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 20,
+    backgroundColor: "#fff",
+  },
   buttonContainer: { marginTop: 10 },
 });

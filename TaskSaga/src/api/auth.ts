@@ -57,7 +57,6 @@ export const googleLogin = async (id_token: string) => {
   }
 };
 
-
 export const verifyEmail = async (data: any) => {
   try {
     const res = await fetch(`${API_URL}/verify`, {

@@ -47,3 +47,16 @@ jobs:
       - name: Format JS/TS code
         run: npx prettier --check .
         working-directory: ./TaskSaga
+
+      # Backend (TypeScript + ts-node)
+      - name: Install Backend deps
+        run: npm ci
+        working-directory: ./backend
+
+      - name: Lint Backend TS
+        run: npx eslint .
+        working-directory: ./backend
+
+      - name: Format Backend TS
+        run: npx prettier --write .
+        working-directory: ./backend

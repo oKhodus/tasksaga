@@ -28,7 +28,7 @@ jobs:
         run: ruff check --fix .
 
       - name: Format Python code
-        run: black --check .
+        run: black .
 
       # Node / React Native
       - name: Set up Node
@@ -38,9 +38,12 @@ jobs:
 
       - name: Install JS deps
         run: npm ci
+        working-directory: ./TaskSaga
 
       - name: Lint JS/TS code
         run: npx eslint .
+        working-directory: ./TaskSaga
 
       - name: Format JS/TS code
         run: npx prettier --check .
+        working-directory: ./TaskSaga

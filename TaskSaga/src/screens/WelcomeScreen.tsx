@@ -1,4 +1,16 @@
-import { View, Text, TouchableOpacity, StyleSheet, Switch, KeyboardAvoidingView, Platform, ScrollView, TextInput, Button, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Switch,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TextInput,
+  Button,
+  Image,
+} from "react-native";
 import { useState } from "react";
 
 export default function WelcomeScreen({ navigation }: any) {
@@ -13,31 +25,52 @@ export default function WelcomeScreen({ navigation }: any) {
     signUp: isDark ? "#2196F3" : "#2196F3",
   };
   const LoginStyles = StyleSheet.create({
-    container: { flexGrow: 1, justifyContent: "center", padding: 20, backgroundColor: "#f5f5f5" },
-    title: { fontSize: 40, fontWeight: "bold", textAlign: "center", fontFamily: "TaskSaga-Regular" },
-    label: { fontSize: 16, marginBottom: 8, color: "#ffffff", fontFamily: "TaskSaga-Regular" },
-    input: { borderWidth: 1, borderColor: "#ccc", borderRadius: 8, padding: 12, marginBottom: 20, backgroundColor: "#fff" },
+    container: {
+      flexGrow: 1,
+      justifyContent: "center",
+      padding: 20,
+      backgroundColor: "#f5f5f5",
+    },
+    title: {
+      fontSize: 40,
+      fontWeight: "bold",
+      textAlign: "center",
+      fontFamily: "TaskSaga-Regular",
+    },
+    label: {
+      fontSize: 16,
+      marginBottom: 8,
+      color: "#ffffff",
+      fontFamily: "TaskSaga-Regular",
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 8,
+      padding: 12,
+      marginBottom: 20,
+      backgroundColor: "#fff",
+    },
     buttonContainer: { marginTop: 10 },
   });
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-
-
-
       {/* style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined} */}
-      <KeyboardAvoidingView >
-        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+      <KeyboardAvoidingView>
+        <ScrollView
+          contentContainerStyle={styles.container}
+          keyboardShouldPersistTaps="handled"
+        >
           <View style={styles.containerImage}>
             <Image
-              source={require('../../assets/d20.gif')}
+              source={require("../../assets/d20.gif")}
               style={styles.icon}
             />
           </View>
           <Text style={[styles.title, { color: theme.text }]}>
             Welcome back
           </Text>
-
 
           <Text style={LoginStyles.label}>Email or username</Text>
           <TextInput
@@ -64,10 +97,8 @@ export default function WelcomeScreen({ navigation }: any) {
           >
             <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
-
         </ScrollView>
       </KeyboardAvoidingView>
-
 
       <View style={{ height: 16 }} />
 

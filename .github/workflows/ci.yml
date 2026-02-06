@@ -42,6 +42,8 @@ jobs:
 
       - name: Lint JS/TS code
         run: npx eslint .
+        working-directory: ./TaskSaga
 
       - name: Format JS/TS code
         run: npx prettier --check .
+        working-directory: ./TaskSaga

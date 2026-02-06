@@ -1,3 +1,4 @@
+# Server
 fastapi
 uvicorn
 pydantic
@@ -9,3 +10,7 @@ PyJWT
 python-dotenv
 google-auth
 requests
+
+# CI
+black
+ruff

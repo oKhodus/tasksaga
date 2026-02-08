@@ -1,17 +1,18 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
+import { Platform } from "react-native";
+import * as SplashScreen from "expo-splash-screen";
+import { useFonts } from "expo-font";
+
 import AppNavigator from "./src/navigation/AppNavigator";
 import { getToken, saveToken } from "./src/auth/storage";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { View } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [token, setToken] = useState<string | null>(null);
-  const [isReady, setIsReady] = useState(false);
+  const [appReady, setAppReady] = useState(false);
 
-  const [fontsLoaded, fontError] = useFonts({
+  const [fontsLoaded] = useFonts({
     "TaskSaga-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
     "TaskSaga-Regular": require("./assets/fonts/Montserrat-Regular.ttf"),
   });
@@ -19,42 +20,42 @@ export default function App() {
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        if (typeof window !== "undefined") {
-          const params = new URLSearchParams(window.location.search);
-          const t = params.get("token");
+        let t: string | null = null;
+
+        if (Platform.OS === "web" && typeof window !== "undefined") {
+          const params = new URLSearchParams(window.location?.search ?? "");
+          t = params.get("token");
           if (t) {
-            setToken(t);
             await saveToken(t);
             window.history.replaceState({}, document.title, "/");
-          } else {
-            const stored = await getToken();
-            setToken(stored);
           }
-        } else {
-          const stored = await getToken();
-          setToken(stored);
         }
+
+        if (!t) {
+          t = await getToken();
+        }
+
+        setToken(t);
       } catch (e) {
         console.warn(e);
       } finally {
-        setIsReady(true);
+        setAppReady(true);
       }
     };
 
     initializeApp();
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (isReady && (fontsLoaded || fontError)) {
-      await SplashScreen.hideAsync();
-    }
-  }, [isReady, fontsLoaded, fontError]);
+  useEffect(() => {
+    const hideSplash = async () => {
+      if (appReady && fontsLoaded) {
+        await SplashScreen.hideAsync();
+      }
+    };
+    hideSplash();
+  }, [appReady, fontsLoaded]);
 
-  if (!isReady) return null;
+  if (!fontsLoaded || !appReady) return null;
 
-  return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <AppNavigator token={token} setToken={setToken} />
-    </View>
-  );
+  return <AppNavigator token={token} setToken={setToken} fontsLoaded={fontsLoaded} />;
 }

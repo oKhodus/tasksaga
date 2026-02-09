@@ -1,119 +1,111 @@
-import { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
-  Button,
-  Alert,
+  TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
+  TextInput,
+  Platform,
 } from "react-native";
-import { register } from "../api/auth";
+import { useState } from "react";
+import { LinearGradient } from 'expo-linear-gradient';
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 
-export default function RegisterScreen({ navigation }: any) {
-  const [name, setName] = useState("");
-  const [loginVal, setLoginVal] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+type RegisterScreenProps = {
+  navigation: any;
+  route: any;
+  fontsLoaded: boolean;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
+};
 
-  const onRegister = async () => {
-    try {
-      const res = await register({ name, username: loginVal, email, password });
+export default function RegisterScreen({ navigation, fontsLoaded }: RegisterScreenProps) {
+  const [identifier, setIdentifier] = useState("");
 
-      if (res.detail) {
-        Alert.alert("Error", res.detail);
-        return;
-      }
-
-      navigation.navigate("Verify", { email });
-    } catch (err: any) {
-      Alert.alert("Error", err.message || "Something went wrong");
-    }
-  };
+  if (!fontsLoaded) return null;
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    <LinearGradient
+      colors={['#1d033b', '#7300ff', '#1d033b']}
+      style={styles.gradientContainer}
     >
-      <ScrollView
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <Text style={styles.title}>Sign Up</Text>
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.innerContainer}>
+            <Text style={[styles.title, { fontFamily: "TaskSaga-Bold" }]}>
+              Sign up & explore
+            </Text>
 
-        <Text style={styles.label}>Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Your Name"
-          value={name}
-          onChangeText={setName}
-        />
+            <Text style={[styles.label, { fontFamily: "TaskSaga-Regular" }]}>
+              Email address
+            </Text>
+            <TextInput
+              value={identifier}
+              onChangeText={setIdentifier}
+              placeholder="name@domain.com"
+              placeholderTextColor="#fff"
+              autoCapitalize="none"
+              style={[styles.input, { fontFamily: "TaskSaga-Regular" }]}
+            />
 
-        <Text style={styles.label}>Username</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          value={loginVal}
-          onChangeText={setLoginVal}
-        />
+            <TouchableOpacity style={styles.button}>
+              <Text style={[styles.buttonText, { fontFamily: "TaskSaga-Bold" }]}>
+                Next
+              </Text>
+            </TouchableOpacity>
 
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
+            <Text style={[styles.orText, { fontFamily: "TaskSaga-Regular" }]}>or</Text>
 
-        <Text style={styles.label}>Password</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
+            <TouchableOpacity style={styles.authbutton}>
+              <AntDesign style={[styles.appleicon]} name="google"/>
+              <Text style={[styles.authbuttonText, { fontFamily: "TaskSaga-Bold" }]}>
+                Sign Up with Google
+              </Text>
+            </TouchableOpacity>
 
-        <View style={styles.button}>
-          <Button title="Register" onPress={onRegister} />
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+            <TouchableOpacity style={styles.authbutton}>
+              <AntDesign style={[styles.appleicon]} name="apple"/>
+              <Text style={[styles.authbuttonText, { fontFamily: "TaskSaga-Bold" }]}>
+                Sign Up with Apple
+              </Text>
+            </TouchableOpacity>
+
+            <Text style={[styles.preSignUpText, { fontFamily: "TaskSaga-Regular" }]}>
+              Already have an account?
+            </Text>
+            <TouchableOpacity style={styles.SignUpButton} onPress={()=> navigation.goBack()}>
+              <Text style={[styles.SignUpButtonText, { fontFamily: "TaskSaga-Bold" }]}>
+                Log in
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: "center",
-    padding: 24,
-    backgroundColor: "#f5f5f5",
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 40,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 6,
-    color: "#333",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 18,
-    backgroundColor: "#fff",
-  },
-  button: {
-    marginTop: 10,
-  },
+  appleicon: {fontSize: 20, color: "#ffffff", },
+  googleicon: {fontSize: 20, color: "#ffffff", },
+  gradientContainer: { flex: 1 },
+  scrollContainer: { flexGrow: 1 },
+  innerContainer: { flex: 1, padding: 24, justifyContent: "center", },
+  title: { fontSize: 34, fontWeight: "700", color: "#fff", marginBottom: 40, textAlign: "center" },
+  label: { fontWeight: "700", color: "#fff", marginBottom: 8 },
+  input: { fontFamily: "TaskSaga-Bold", borderWidth: 1, borderColor: "#ccc", borderRadius: 4, padding: 12, marginBottom: 20, backgroundColor: "#ffffff1a", color: "#fff" },
+  button: { paddingVertical: 10, borderRadius: 20, alignItems: "center", backgroundColor: "#340375", marginBottom: 20 },
+  buttonText: { color: "#fff", fontSize: 18,},
+  orText: { fontWeight: "700", color: "#fff", textAlign: "center", marginBottom: 20 },
+  authbutton: {flexDirection: "row", alignItems: "center", justifyContent: "center", paddingVertical: 10, borderRadius: 20, backgroundColor: "#ffffff1a", marginBottom: 20, gap:10 },
+  authbuttonText: { color: "#fff", fontSize: 18, },
+  preSignUpText: { color: "#fff", textAlign: "center", marginVertical: 10 },
+  SignUpButton: { alignItems: "center" },
+  SignUpButtonText: { color: "#fff", fontSize: 18 },
 });

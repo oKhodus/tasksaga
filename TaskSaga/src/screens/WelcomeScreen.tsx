@@ -14,6 +14,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 type WelcomeScreenProps = {
   navigation: any;
+  route: any;
   fontsLoaded: boolean;
 };
 
@@ -77,7 +78,7 @@ export default function WelcomeScreen({ navigation, fontsLoaded }: WelcomeScreen
             <Text style={[styles.preSignUpText, { fontFamily: "TaskSaga-Regular" }]}>
               Don't have an account?
             </Text>
-            <TouchableOpacity style={styles.SignUpButton}>
+            <TouchableOpacity style={styles.SignUpButton} onPress={()=> navigation.navigate("Register")}>
               <Text style={[styles.SignUpButtonText, { fontFamily: "TaskSaga-Bold" }]}>
                 Sign Up
               </Text>

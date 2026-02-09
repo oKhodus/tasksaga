@@ -40,7 +40,11 @@ export default function AppNavigator({ token, setToken, fontsLoaded }: AppNaviga
             <Stack.Screen name="Login">
               {(props) => <LoginScreen {...props} setToken={setToken} />}
             </Stack.Screen>
-            <Stack.Screen name="Register" component={RegisterScreen} />
+
+            <Stack.Screen name="Register">
+              {(props) => <RegisterScreen {...props} fontsLoaded={fontsLoaded} setToken={setToken} />}
+            </Stack.Screen>
+
             <Stack.Screen name="Verify" component={VerifyScreen} />
           </>
         )}

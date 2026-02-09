@@ -12,7 +12,7 @@ export default function App() {
   const [token, setToken] = useState<string | null>(null);
   const [appReady, setAppReady] = useState(false);
 
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     "TaskSaga-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
     "TaskSaga-Regular": require("./assets/fonts/Montserrat-Regular.ttf"),
   });
@@ -37,7 +37,7 @@ export default function App() {
 
         setToken(t);
       } catch (e) {
-        console.warn(e);
+        console.warn("App initialization error:", e);
       } finally {
         setAppReady(true);
       }
@@ -48,14 +48,17 @@ export default function App() {
 
   useEffect(() => {
     const hideSplash = async () => {
-      if (appReady && fontsLoaded) {
+      if (appReady && (fontsLoaded || fontError)) {
         await SplashScreen.hideAsync();
       }
     };
     hideSplash();
-  }, [appReady, fontsLoaded]);
+  }, [appReady, fontsLoaded, fontError]);
 
-  if (!fontsLoaded || !appReady) return null;
+  if (!appReady) return null;
+  if (!fontsLoaded && fontError) {
+    console.warn("Font loading failed, using fallback fonts.");
+  }
 
   return <AppNavigator token={token} setToken={setToken} fontsLoaded={fontsLoaded} />;
 }

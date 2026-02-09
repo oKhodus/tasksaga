@@ -3,157 +3,106 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Switch,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
   TextInput,
-  Button,
-  Image,
+  Platform,
 } from "react-native";
 import { useState } from "react";
+import { LinearGradient } from 'expo-linear-gradient';
+import { AntDesign } from "@expo/vector-icons";
 
-export default function WelcomeScreen({ navigation }: any) {
-  const [isDark] = useState(true);
+type WelcomeScreenProps = {
+  navigation: any;
+  route: unknown;
+  fontsLoaded: boolean;
+};
+
+export default function WelcomeScreen({ navigation, fontsLoaded }: WelcomeScreenProps) {
   const [identifier, setIdentifier] = useState("");
-  const [password, setPassword] = useState("");
 
-  const theme = {
-    background: isDark ? "#1E1E1E" : "#f0f4f8",
-    text: isDark ? "#fff" : "#333",
-    signIn: isDark ? "#4CAF50" : "#4CAF50",
-    signUp: isDark ? "#2196F3" : "#2196F3",
-  };
-  const LoginStyles = StyleSheet.create({
-    container: {
-      flexGrow: 1,
-      justifyContent: "center",
-      padding: 20,
-      backgroundColor: "#f5f5f5",
-    },
-    title: {
-      fontSize: 40,
-      fontWeight: "bold",
-      textAlign: "center",
-      fontFamily: "TaskSaga-Regular",
-    },
-    label: {
-      fontSize: 16,
-      marginBottom: 8,
-      color: "#ffffff",
-      fontFamily: "TaskSaga-Regular",
-    },
-    input: {
-      borderWidth: 1,
-      borderColor: "#ccc",
-      borderRadius: 8,
-      padding: 12,
-      marginBottom: 20,
-      backgroundColor: "#fff",
-    },
-    buttonContainer: { marginTop: 10 },
-  });
+  if (!fontsLoaded) return null;
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
-      {/* style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined} */}
-      <KeyboardAvoidingView>
+    <LinearGradient
+      colors={['#1d033b', '#7300ff', '#1d033b']}
+      style={styles.gradientContainer}
+    >
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
         <ScrollView
-          contentContainerStyle={styles.container}
+          contentContainerStyle={styles.scrollContainer}
           keyboardShouldPersistTaps="handled"
         >
-          <View style={styles.containerImage}>
-            <Image
-              source={require("../../assets/d20.gif")}
-              style={styles.icon}
+          <View style={styles.innerContainer}>
+            <Text style={[styles.title, { fontFamily: "TaskSaga-Bold" }]}>
+              Welcome back
+            </Text>
+
+            <Text style={[styles.label, { fontFamily: "TaskSaga-Regular" }]}>
+              Email or username
+            </Text>
+            <TextInput
+              value={identifier}
+              onChangeText={setIdentifier}
+              autoCapitalize="none"
+              style={[styles.input, { fontFamily: "TaskSaga-Regular" }]}
             />
+
+            <TouchableOpacity style={styles.button}>
+              <Text style={[styles.buttonText, { fontFamily: "TaskSaga-Bold" }]}>
+                Continue
+              </Text>
+            </TouchableOpacity>
+
+            <Text style={[styles.orText, { fontFamily: "TaskSaga-Regular" }]}>or</Text>
+
+            <TouchableOpacity style={styles.authbutton}>
+              <AntDesign style={[styles.googleicon]} name="google"/>
+              <Text style={[styles.authbuttonText, { fontFamily: "TaskSaga-Bold" }]}>
+                Continue with Google
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.authbutton}>
+              <AntDesign style={[styles.appleicon]} name="apple"/>
+              <Text style={[styles.authbuttonText, { fontFamily: "TaskSaga-Bold" }]}>
+                Continue with Apple
+              </Text>
+            </TouchableOpacity>
+
+            <Text style={[styles.preSignUpText, { fontFamily: "TaskSaga-Regular" }]}>
+              Don't have an account?
+            </Text>
+            <TouchableOpacity style={styles.SignUpButton} onPress={()=> navigation.navigate("Register")}>
+              <Text style={[styles.SignUpButtonText, { fontFamily: "TaskSaga-Bold" }]}>
+                Sign Up
+              </Text>
+            </TouchableOpacity>
           </View>
-          <Text style={[styles.title, { color: theme.text }]}>
-            Welcome back
-          </Text>
-
-          <Text style={LoginStyles.label}>Email or username</Text>
-          <TextInput
-            value={identifier}
-            onChangeText={setIdentifier}
-            autoCapitalize="none"
-            style={LoginStyles.input}
-          />
-
-          {/* <Text style={LoginStyles.label}>Password</Text>
-          <TextInput
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            style={LoginStyles.input}
-          /> */}
-
-          {/* <View style={LoginStyles.buttonContainer}>
-            <Button title="Continue" />
-          </View> */}
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: theme.signUp }]}
-            onPress={() => navigation.navigate("")}
-          >
-            <Text style={styles.buttonText}>Continue</Text>
-          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
-
-      <View style={{ height: 16 }} />
-
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: theme.signUp }]}
-        onPress={() => navigation.navigate("Register")}
-      >
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  containerImage: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 24,
-  },
-  themeSwitch: {
-    position: "absolute",
-    top: 40,
-    right: 24,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "700",
-    textAlign: "center",
-    marginBottom: 40,
-    fontFamily: "TaskSaga-Bold",
-  },
-  button: {
-    paddingVertical: 14,
-    borderRadius: 10,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  icon: {
-    width: 100,
-    height: 100,
-  },
+  appleicon: {fontSize: 20, color: "#ffffff", },
+  googleicon: {fontSize: 20, color: "#ffffff", },
+  gradientContainer: { flex: 1 },
+  scrollContainer: { flexGrow: 1 },
+  innerContainer: { flex: 1, padding: 24, justifyContent: "center", },
+  title: { fontSize: 34, fontWeight: "700", color: "#fff", marginBottom: 40, textAlign: "center" },
+  label: { fontWeight: "700", color: "#fff", marginBottom: 8 },
+  input: { fontFamily: "TaskSaga-Bold", borderWidth: 1, borderColor: "#ccc", borderRadius: 4, padding: 12, marginBottom: 20, backgroundColor: "#ffffff1a", color: "#fff" },
+  button: { paddingVertical: 10, borderRadius: 20, alignItems: "center", backgroundColor: "#340375", marginBottom: 20 },
+  buttonText: { color: "#fff", fontSize: 18,},
+  orText: { fontWeight: "700", color: "#fff", textAlign: "center", marginBottom: 20 },
+  authbutton: {flexDirection: "row", alignItems: "center", justifyContent: "center", paddingVertical: 10, borderRadius: 20, backgroundColor: "#ffffff1a", marginBottom: 20, gap:10 },
+  authbuttonText: { color: "#fff", fontSize: 18, },
+  preSignUpText: { color: "#fff", textAlign: "center", marginVertical: 10 },
+  SignUpButton: { alignItems: "center" },
+  SignUpButtonText: { color: "#fff", fontSize: 18 },
 });

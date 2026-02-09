@@ -12,22 +12,17 @@ const Stack = createNativeStackNavigator();
 type AppNavigatorProps = {
   token: string | null;
   setToken: React.Dispatch<React.SetStateAction<string | null>>;
+  fontsLoaded: boolean;
 };
 
-export default function AppNavigator({ token, setToken }: AppNavigatorProps) {
+export default function AppNavigator({ token, setToken, fontsLoaded }: AppNavigatorProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Если токен уже есть, или мы только что получили его из URL
-    if (token) {
-      setLoading(false);
-    } else {
-      // Можно добавить проверку localStorage / asyncStorage для веб
-      setLoading(false);
-    }
-  }, [token]);
+    setLoading(false);
+  }, []);
 
-  if (loading) return null; // пока не знаем токен — не рендерим стек
+  if (loading) return null;
 
   return (
     <NavigationContainer>
@@ -38,11 +33,18 @@ export default function AppNavigator({ token, setToken }: AppNavigatorProps) {
           </Stack.Screen>
         ) : (
           <>
-            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen name="Welcome">
+              {(props) => <WelcomeScreen {...props} fontsLoaded={fontsLoaded} />}
+            </Stack.Screen>
+
             <Stack.Screen name="Login">
               {(props) => <LoginScreen {...props} setToken={setToken} />}
             </Stack.Screen>
-            <Stack.Screen name="Register" component={RegisterScreen} />
+
+            <Stack.Screen name="Register">
+              {(props) => <RegisterScreen {...props} fontsLoaded={fontsLoaded} setToken={setToken} />}
+            </Stack.Screen>
+
             <Stack.Screen name="Verify" component={VerifyScreen} />
           </>
         )}

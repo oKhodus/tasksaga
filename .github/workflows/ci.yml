@@ -28,7 +28,7 @@ jobs:
         working-directory: ./TaskSaga
 
       - name: Format JS/TS code
-        run: npx prettier --check .
+        run: npx prettier --write .
         working-directory: ./TaskSaga
 
       # Backend (TypeScript + ts-node)

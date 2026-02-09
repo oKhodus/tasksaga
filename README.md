@@ -14,37 +14,32 @@ TaskSaga gamifies your daily habits and goals, letting you level up, earn reward
 
 ## Tech Stack
 
-- **Backend:** FastAPI, SQLAlchemy, SQLite/PostgreSQL  
-- **Authentication:** JWT, bcrypt  
-- **Frontend:** TypeScript + React (or your preferred framework)  
-- **Dev Tools:** Docker, Uvicorn  
+- **Backend:** Fastify + TypeScript, Prisma-orm, SQLite/PostgreSQL
+- **Authentication:** JWT, bcrypt
+- **Frontend:** TypeScript + React (Native)
+- **Dev Tools:** Docker  
 
 ## Installation
 
 1. Clone the repo  
     ```bash
-    git clone https://github.com/yourusername/tasksaga.git
+    git clone https://github.com/TaskSaga/tasksaga.git
     cd tasksaga
     ```
 
-2. Create virtual environment and install dependencies
-    ```bash
-    python -m venv .venv
-    source .venv/bin/activate  # Linux/Mac
-    .venv\Scripts\activate     # Windows
-    pip install -r requirements.txt
+2. Install dependencies
+    npm install
     ```
 
 3. Run the app
     ```bash
-    uvicorn main:app --reload
+    cd ./TaskSaga
+    npx expo start
     ```
-4. Open http://127.0.0.1:8000/docs
- to explore the API
 
 ## How it Works
 
-Every habit you complete gives you XP, levels, and progress. Missed a day? Your hero might stumble, but the quest continues! Level up your life while having fun.
+Complete habits to gain XP, level up your hero, and unlock rewards. Miss a day? Your hero may stumble, but the quest continues! Turn productivity into an adventure.
 
 ## Contributing
 

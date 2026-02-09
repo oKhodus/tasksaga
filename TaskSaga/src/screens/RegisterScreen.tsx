@@ -10,11 +10,11 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 type RegisterScreenProps = {
   navigation: any;
-  route: any;
+  route: unknown;
   fontsLoaded: boolean;
   setToken: React.Dispatch<React.SetStateAction<string | null>>;
 };
@@ -63,7 +63,7 @@ export default function RegisterScreen({ navigation, fontsLoaded }: RegisterScre
             <Text style={[styles.orText, { fontFamily: "TaskSaga-Regular" }]}>or</Text>
 
             <TouchableOpacity style={styles.authbutton}>
-              <AntDesign style={[styles.appleicon]} name="google"/>
+              <AntDesign style={[styles.googleicon]} name="google"/>
               <Text style={[styles.authbuttonText, { fontFamily: "TaskSaga-Bold" }]}>
                 Sign Up with Google
               </Text>

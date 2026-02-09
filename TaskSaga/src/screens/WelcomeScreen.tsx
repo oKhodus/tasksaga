@@ -10,11 +10,11 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 type WelcomeScreenProps = {
   navigation: any;
-  route: any;
+  route: unknown;
   fontsLoaded: boolean;
 };
 
@@ -60,9 +60,8 @@ export default function WelcomeScreen({ navigation, fontsLoaded }: WelcomeScreen
             <Text style={[styles.orText, { fontFamily: "TaskSaga-Regular" }]}>or</Text>
 
             <TouchableOpacity style={styles.authbutton}>
-              <AntDesign style={[styles.appleicon]} name="google"/>
+              <AntDesign style={[styles.googleicon]} name="google"/>
               <Text style={[styles.authbuttonText, { fontFamily: "TaskSaga-Bold" }]}>
-              
                 Continue with Google
               </Text>
             </TouchableOpacity>
@@ -70,7 +69,6 @@ export default function WelcomeScreen({ navigation, fontsLoaded }: WelcomeScreen
             <TouchableOpacity style={styles.authbutton}>
               <AntDesign style={[styles.appleicon]} name="apple"/>
               <Text style={[styles.authbuttonText, { fontFamily: "TaskSaga-Bold" }]}>
-                
                 Continue with Apple
               </Text>
             </TouchableOpacity>
